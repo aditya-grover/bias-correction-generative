@@ -21,11 +21,11 @@ pip install -r requirements.txt
 
 ## Datasets
 
-These scripts for downloading the CIFAR10 dataset will be called automatically the first time the `main.py` script is run. By default, the dataset will be downloaded in the `datasets` folder. Additionally, we provide 100,000 samples drawn from PixelCNN++ and SNGAN in the `samples/` folder.
+These scripts for downloading the CIFAR10 dataset will be called automatically the first time the `main.py` script is run. By default, the dataset will be downloaded in the `datasets/` folder. 
 
-## Models
+## Pretrained Models and Samples
 
-Pretrained ckpts for the models are provided in the `models/` folder
+Pretrained ckpts for the classifier models are coming soon. Additionally, we also plan to provide 100,000 samples drawn from PixelCNN++ and SNGAN models.
 
 ## Examples
 

@@ -113,7 +113,7 @@ def main():
 	parser = argparse.ArgumentParser(description='Debiasing generative models via importance weighting')
 	parser.add_argument('--sampledir', type=str, default='./samples/pixelcnnpp')
 	parser.add_argument('--modeldir', type=str, default='./models/pixelcnnpp')
-	parser.add_argument('--datadir', type=str, default='../datasets/cifar10')
+	parser.add_argument('--datadir', type=str, default='./datasets/')
 	parser.add_argument('--no-cuda', action='store_true', default=False,
 						help='disables CUDA training')
 	parser.add_argument('--seed', type=int, default=1, metavar='S',
@@ -144,13 +144,15 @@ def main():
 	parser.add_argument('--clip', dest='clip', action='store_true', default=False,
 						help='clip the weights to lower bound beta if True')
 
+	parser.add_argument('--reference', dest='reference', action='store_true', default=False,
+						help='evaluates reference sample quality metrics using real data if True')
+
 	parser.add_argument('--bias-variance', dest='bias_variance', action='store_true', default=False,
 						help='perform bias variance analysis')
 	parser.add_argument('--calibration', dest='calibration', action='store_true', default=False,
 						help='check calibration of classifier')
 	parser.add_argument('--use-half', dest='use_half', action='store_true', default=False,
 						help='uses 50 percent examples to perform bias variance analysis')
-
 
 
 	args = parser.parse_args()
@@ -187,8 +189,8 @@ def main():
 	state_dict = torch.load(savepath)
 	model.load_state_dict(state_dict)
 
-	# test_loss, test_acc = test(args, model, device, test_loader, validation=False)
-	# print('Test loss: {:.4f}, accuracy: {:.2f}'.format(test_loss, test_acc))
+	test_loss, test_acc = test(args, model, device, test_loader, validation=False)
+	print('Test loss: {:.4f}, accuracy: {:.2f}'.format(test_loss, test_acc))
 
 	if args.calibration:
 		test_calibration(args, model, device, test_loader, n_bins=10, savefile=None)
@@ -196,7 +198,8 @@ def main():
 	if args.bias_variance:
 		compute_bias_variance(args, model, device, kwargs)
 
-	# compute_train_test_scores(args, model, device, kwargs)
+	if args.reference:
+		compute_train_test_scores(args, model, device, kwargs)
 	compute_iw_scores(args, model, device, kwargs)
 		
 if __name__ == '__main__':
