@@ -1,6 +1,3 @@
-# bias-correction-generative
-Bias Correction of Learned Generative Models using Likelihood-Free Importance Weighting
-
 # Bias Correction of Learned Generative Models using Likelihood-Free Importance Weighting
 
 This repository provides a reference implementation for debiased evaluation of generative models as described in the paper:
